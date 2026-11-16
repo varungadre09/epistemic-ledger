@@ -25,16 +25,7 @@ import sys, argparse, json, re
 from collections import OrderedDict
 import pandas as pd
 
-
-def slug_to_ltree(slug: str) -> str:
-    """Sanitize a '>'-delimited slug into a valid ltree path.
-    ltree labels allow [A-Za-z0-9_] only; '>' -> '.', other chars -> '_'."""
-    labels = []
-    for part in str(slug).split(">"):
-        lab = re.sub(r"[^a-z0-9]+", "_", part.strip().lower()).strip("_")
-        if lab:
-            labels.append(lab)
-    return ".".join(labels)
+from ltree_util import slug_to_ltree  # shared, dependency-free
 
 
 def transform(df: pd.DataFrame, scope: str):

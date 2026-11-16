@@ -95,32 +95,36 @@ resolved; finance 72% n=25). The resolver cites primary sources (e.g. SEC filing
 Eurostat, company IR) and refuses to guess — roughly half of extracted claims come
 back `unresolvable`, which is correct conservative behavior (see Limitations).
 
-## 4. Running it locally & publishing securely
+## 4. Deployment & how to try it
 
-**Run locally** (full detail in `README.md`):
+The system is **one hosted backend plus a browser extension**, and a visitor needs
+only the extension.
 
-1. `cp .env.example .env` and fill in `SUPABASE_DB_URL`, `ANTHROPIC_API_KEY`,
-   `X_BEARER_TOKEN`.
-2. Create a Supabase project; apply `db/001_schema.sql` and `db/002_seed_taxonomy.sql`.
-3. Build a ledger: `python run_new_author.py estimate|ingest|extract|resolve|score
-   --handle <handle> --months 6` (each stage is gated; nothing paid runs implicitly).
-4. Serve: `python api.py`, then load `extension/` unpacked in Chrome.
+```
+Chrome + extension  ->  hosted read API (api.py)  ->  Supabase (read-only role)
+                                  \-> Anthropic (live tweet analysis only)
+```
 
-**Before publishing to GitHub** (enforced by `.gitignore`): remove `.env` (DB
-password, Anthropic + X keys), `ingest/` (raw tweets — X ToS restricts
-redistribution), `data_flat/` (Adaption-generated data — confirm licensing before
-sharing), `eval_runs/`, and `*.log`. Ship `.env.example` instead.
+All credentials — database, Anthropic, X — live on the server. The extension ships
+with the hosted API's URL and contains no keys.
 
-**15-day shared access — two tracks, both key-safe:**
+**Trying it (no accounts, no keys).** Install the unpacked extension from the
+repository (`chrome://extensions` -> Developer mode -> Load unpacked -> `extension/`)
+and browse X. A reliability chip appears on tweets by tracked authors; clicking one
+classifies that tweet live and shows the author's record in that exact subfield.
+Preloaded authors include @chamath and @CathieDWood plus a simulated set. Viewing an
+existing ledger is free; "analyze this tweet" runs one small model call on the server;
+cold-author building is disabled on the public demo.
 
-- **Read-only live demo (on my data).** Host `api.py` (or Supabase PostgREST)
-  against a **read-only Postgres role** that can only `SELECT scores/sources`, or
-  Supabase RLS + the publishable anon key. Judges see real ledgers; no one can
-  trigger paid writes; no secret key ever ships. After 15 days: revoke the role /
-  drop the RLS policy / pause the project.
-- **Repo, bring-your-own-keys.** Anyone cloning the public repo runs the full
-  pipeline with **their own** Anthropic / X / Supabase credentials. My keys never
-  leave my machine.
+**What is exposed, and how it stays safe.** The public endpoints serve only read-only
+reliability data, and the database is reached through a role that can just `SELECT`.
+No secret reaches the browser or the repository — `.env` and all raw data are
+git-ignored, and the repo ships only `.env.example`.
+
+**Self-hosting the full pipeline.** A developer can clone the repository, create their
+own Supabase project, set their own keys, and run the ingest -> extract -> resolve ->
+score pipeline to build ledgers for any author (steps in `README.md`). That path uses
+the developer's own X and Anthropic credits.
 
 ## 5. Limitations & running at scale
 

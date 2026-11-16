@@ -35,7 +35,7 @@ import psycopg
 import config
 import db
 import xclient
-from run_seed import slug_to_ltree
+from ltree_util import slug_to_ltree
 
 INGEST_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ingest")
 

@@ -1,0 +1,10 @@
+# Hosted read API + live pipeline (ingest/extract/resolve/score) runtime.
+# The read + analyze API needs only the first three; scipy is used by scoring.
+anthropic>=2.0
+psycopg[binary]>=3.1
+pydantic>=2.0
+scipy>=1.10
+
+# Extras (NOT needed to host the API):
+#   seeding from parquet (run_seed.py) + scripts/ :  pandas pyarrow
+#   report PDF generation                         :  markdown xhtml2pdf

@@ -19,7 +19,7 @@ import config
 import db
 from answer import build_answer, resolve_source, _slug
 from extract import extract_claims
-from run_seed import slug_to_ltree
+from ltree_util import slug_to_ltree
 
 
 def score_at_topic(conn, source_id: str, ltree_path: str):

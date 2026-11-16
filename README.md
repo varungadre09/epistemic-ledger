@@ -69,17 +69,34 @@ endpoints above expose only public reliability data.
 `X_BEARER_TOKEN`, or the Supabase service-role key. These live only in `.env`
 (git-ignored) or your host's secret store.
 
-**Recommended posture for a public / 15-day demo:**
-- Set `EPI_ALLOW_BUILD=0` so visitors can't trigger paid builds.
-- Point `SUPABASE_DB_URL` at the **read-only role** in `db/003_readonly_role.sql`.
-  With build off, every exposed endpoint is read-only on the DB (`/analyze` only
-  *reads* scores — it spends a small Anthropic amount per call but writes nothing).
-- Expose it with a tunnel (fastest) while `api.py` runs on your machine:
-  ```bash
-  cloudflared tunnel --url http://localhost:8000     # or: ngrok http 8000
-  ```
-  Share the HTTPS URL it prints; your keys stay on your machine. Or deploy `api.py`
-  to a host (Render/Railway/Fly) with the env vars set in the host's secret store.
+**The model:** judges/users install **only the extension**; it talks to **one API you
+host**, which holds all the keys server-side. They need no Supabase and no API tokens.
+
+**1. Host the API** (stable URL — needed so it can be baked into the extension). Deploy
+this repo to Render / Railway / Fly; it includes `requirements.txt` and a `Procfile`
+(`web: HOST=0.0.0.0 python pipeline/api.py`). Set these as the host's env vars (in its
+secret store, never in the repo):
+- `SUPABASE_DB_URL` → the **read-only role** from `db/003_readonly_role.sql`
+- `ANTHROPIC_API_KEY` → your key (used only by `/analyze`)
+- `EPI_ALLOW_BUILD=0` → disable paid cold-builds on the public demo
+
+With build off, every exposed endpoint is read-only on the DB. You get a stable URL
+like `https://epistemic-ledger.onrender.com`.
+
+*(Quick alternative, less stable:* run `api.py` locally and expose it with
+`cloudflared tunnel --url http://localhost:8000` — but the URL changes each run, so the
+hosted option is better for a baked-in demo.)*
+
+**2. Bake the URL into the extension.** In `extension/background.js`, set
+`DEFAULT_API` to your hosted URL, then commit and push. Now the repo's extension points
+at your backend by default.
+
+**3. Judges just install the extension** — `chrome://extensions` → Load unpacked →
+`extension/` — and browse X. Zero config, no keys, no database. (They can still
+override the API URL in the popup.)
+
+**After the 15 days:** drop the read-only role (`db/003` has the command) and/or stop
+the host; the shared link goes dead and nothing of yours was ever exposed.
 
 **Build controls** (env on `api.py`): `EPI_ALLOW_BUILD` (default 1),
 `EPI_BUILD_MONTHS` (6), `EPI_BUILD_MAX_CLAIMS` (60, caps resolve spend),
