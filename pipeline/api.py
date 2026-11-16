@@ -129,10 +129,7 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(build_answer(conn, handle, one("topic")))
             return self._json({"error": "not found"}, 404)
         except Exception as e:  # noqa: BLE001 — surface as JSON, don't 500 silently
-            import traceback
-            return self._json({"error": str(e), "type": type(e).__name__,
-                               "cause": repr(getattr(e, "__cause__", None)),
-                               "trace": traceback.format_exc()[-600:]}, 500)
+            return self._json({"error": str(e), "type": type(e).__name__}, 500)
 
     def do_POST(self):
         u = urllib.parse.urlparse(self.path)
@@ -159,10 +156,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(start_build(handle))
             return self._json({"error": "not found"}, 404)
         except Exception as e:  # noqa: BLE001
-            import traceback
-            return self._json({"error": str(e), "type": type(e).__name__,
-                               "cause": repr(getattr(e, "__cause__", None)),
-                               "trace": traceback.format_exc()[-600:]}, 500)
+            return self._json({"error": str(e), "type": type(e).__name__}, 500)
 
     def log_message(self, *a):  # quiet
         pass
