@@ -1,0 +1,16 @@
+# Render Blueprint — deploys the read API as a free web service.
+# On Render: New + -> Blueprint -> pick this repo -> fill the two secret values.
+services:
+  - type: web
+    name: epistemic-ledger
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: HOST=0.0.0.0 python pipeline/api.py
+    envVars:
+      - key: EPI_ALLOW_BUILD
+        value: "0"            # disable paid cold-builds on the public demo
+      - key: SUPABASE_DB_URL
+        sync: false           # Render prompts you — paste the READ-ONLY role string
+      - key: ANTHROPIC_API_KEY
+        sync: false           # Render prompts you — used only by /analyze
