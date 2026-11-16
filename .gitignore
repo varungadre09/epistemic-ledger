@@ -1,0 +1,15 @@
+# secrets
+.env
+
+# python
+.venv/
+__pycache__/
+*.pyc
+
+# raw / generated data (X ToS: don't redistribute tweet text; Adaption data licensing)
+ingest/
+data_flat/
+eval_runs/
+*.log
+# derived scorer dump; embeds simulated claim text
+test_a_out.txt

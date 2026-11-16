@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { width: 300px; margin: 0; padding: 12px 14px;
+           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+           font-size: 13px; background: #15181c; color: #e7e9ea; }
+    h1 { font-size: 14px; margin: 0 0 8px; }
+    .row { display: flex; gap: 6px; margin-bottom: 8px; }
+    input { flex: 1; background: #202428; border: 1px solid #2f3336; color: #e7e9ea;
+            border-radius: 8px; padding: 6px 8px; font-size: 13px; }
+    button { background: #1d9bf0; border: 0; color: #fff; border-radius: 8px;
+             padding: 6px 10px; font-weight: 700; cursor: pointer; }
+    #out { margin-top: 6px; }
+    .item { margin-bottom: 8px; }
+    .top { display: flex; justify-content: space-between; }
+    .ci { color: #71767b; font-size: 11px; }
+    .muted { color: #a9b0b6; }
+    .cfg { color: #71767b; font-size: 11px; margin-top: 10px; border-top: 1px solid #2f3336; padding-top: 8px; }
+    .cfg input { font-size: 11px; }
+  </style>
+</head>
+<body>
+  <h1>Epistemic Ledger</h1>
+  <div class="row">
+    <input id="handle" placeholder="@chamath" />
+    <button id="go">Look up</button>
+  </div>
+  <div id="out" class="muted">Enter a handle, or open an X profile.</div>
+  <div class="cfg">
+    API URL
+    <div class="row" style="margin-top:4px">
+      <input id="api" placeholder="http://localhost:8000" />
+      <button id="save">Save</button>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

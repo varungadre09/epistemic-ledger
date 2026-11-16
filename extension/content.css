@@ -1,0 +1,101 @@
+/* Epistemic Ledger — soft pastel theme */
+#epi-panel {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 330px;
+  max-height: 82vh;
+  overflow-y: auto;
+  z-index: 2147483647;
+  background: linear-gradient(180deg, #fdfbff 0%, #f6f4fd 100%);
+  color: #2c2a35;
+  border: 1px solid #ece7f6;
+  border-radius: 20px;
+  padding: 16px 16px 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  box-shadow: 0 14px 40px rgba(90, 70, 160, 0.18);
+}
+#epi-panel::-webkit-scrollbar { width: 8px; }
+#epi-panel::-webkit-scrollbar-thumb { background: #e2dcf0; border-radius: 8px; }
+
+#epi-panel .epi-head { display: flex; align-items: center; }
+#epi-panel .epi-brand { display: flex; align-items: center; gap: 7px; font-weight: 800; font-size: 13px; color: #6b5bd0; letter-spacing: .2px; }
+#epi-panel .epi-dot { width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #b9a8f5, #8a74ea);
+  box-shadow: 0 0 0 4px rgba(138, 116, 234, 0.16); }
+#epi-panel .epi-close { margin-left: auto; cursor: pointer; color: #b6aecb; font-size: 20px; line-height: 1; }
+#epi-panel .epi-close:hover { color: #6b5bd0; }
+
+#epi-panel .epi-who { color: #8a74ea; font-weight: 700; font-size: 14px; margin-top: 3px; }
+#epi-panel .epi-meta { color: #8c86a0; font-size: 11.5px; margin: 2px 0 10px; }
+
+#epi-panel .epi-section { font-size: 11px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .6px; color: #a79fc0; margin: 12px 0 7px; }
+
+/* this-tweet card */
+#epi-panel .epi-tweet { background: #fff; border: 1px solid #efeaf8;
+  border-radius: 14px; padding: 10px 12px; margin-bottom: 4px;
+  box-shadow: 0 3px 12px rgba(120, 100, 190, 0.07); }
+#epi-panel .epi-tweet .epi-section { margin-top: 0; }
+#epi-panel .epi-claim { padding: 6px 0; border-top: 1px dashed #efeaf8; }
+#epi-panel .epi-claim:first-of-type { border-top: 0; }
+#epi-panel .epi-claimrow { display: flex; gap: 11px; align-items: center; }
+#epi-panel .epi-ringwrap { flex: 0 0 68px; }
+#epi-panel .epi-claimbody { flex: 1; min-width: 0; }
+#epi-panel .epi-claimtxt { font-size: 12px; color: #413d4f; font-style: italic; }
+#epi-panel .epi-claimtopic { font-size: 12.5px; font-weight: 700; color: #5a4fc0; margin-top: 3px; text-transform: capitalize; }
+#epi-panel .epi-tag { font-size: 9.5px; font-weight: 700; color: #a07bd0;
+  background: #f1ebfb; border-radius: 6px; padding: 1px 5px; text-transform: none; margin-left: 4px; }
+
+/* breakdown bars */
+#epi-panel .epi-item { margin-bottom: 9px; }
+#epi-panel .epi-row { display: flex; align-items: center; gap: 9px; }
+#epi-panel .epi-topic { flex: 0 0 92px; font-size: 12px; color: #413d4f; text-transform: capitalize;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#epi-panel .epi-bar { flex: 1; height: 9px; background: #efeaf8; border-radius: 6px; overflow: hidden; }
+#epi-panel .epi-fill { display: block; height: 100%; border-radius: 6px; transition: width .3s ease; }
+#epi-panel .epi-val { flex: 0 0 36px; text-align: right; font-weight: 800; font-size: 12px; color: #413d4f; }
+#epi-panel .epi-ci { color: #9a93af; font-size: 10.5px; margin-top: 3px; }
+#epi-panel .epi-item .epi-ci { margin-left: 101px; }
+
+#epi-panel .epi-legend { margin-top: 12px; background: #f3f0fb; border-radius: 12px;
+  padding: 9px 11px; font-size: 10.5px; color: #726c86; line-height: 1.55; }
+#epi-panel .epi-legend b { color: #5a4fc0; }
+#epi-panel .epi-legend div { margin: 2px 0; }
+
+#epi-panel .epi-foot { color: #a79fc0; font-size: 10.5px; margin-top: 10px; text-align: center; }
+#epi-panel .epi-muted { color: #8c86a0; font-size: 12px; padding: 4px 0; }
+#epi-panel .epi-loading { color: #8a74ea; }
+
+/* cold-author build CTA + progress */
+#epi-panel .epi-build { padding: 6px 0 2px; }
+#epi-panel .epi-build-btn {
+  margin-top: 9px; width: 100%; padding: 9px 12px;
+  background: linear-gradient(90deg, #8a74ea, #a98ef2);
+  color: #fff; border: 0; border-radius: 12px;
+  font-size: 13px; font-weight: 800; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(138, 116, 234, 0.33);
+}
+#epi-panel .epi-build-btn:hover { filter: brightness(1.04); }
+#epi-panel .epi-spinner {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 3px solid #e7e0f6; border-top-color: #8a74ea;
+  animation: epi-spin 0.8s linear infinite;
+}
+@keyframes epi-spin { to { transform: rotate(360deg); } }
+
+/* per-tweet chip */
+.epi-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-left: 6px; padding: 1px 9px;
+  background: color-mix(in srgb, var(--epi-c, #b9a8f5) 22%, white);
+  border: 1px solid color-mix(in srgb, var(--epi-c, #b9a8f5) 55%, white);
+  color: #5a4a8f; border-radius: 999px;
+  font-size: 11px; font-weight: 800; line-height: 1.7; cursor: pointer;
+  vertical-align: middle;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.epi-chip:hover { filter: brightness(0.97); }
+.epi-chip .epi-chip-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--epi-c, #b9a8f5); }
