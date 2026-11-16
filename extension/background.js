@@ -6,7 +6,7 @@
 // Then anyone who loads the extension uses your backend with zero setup — no
 // Supabase, no API keys on their side. Leave it as localhost for local dev.
 // (Users can still override it in the extension popup.)
-const DEFAULT_API = "http://localhost:8000";   // e.g. "https://epistemic-ledger.onrender.com"
+const DEFAULT_API = "https://epistemic-ledger.onrender.com";   // hosted read-only demo backend
 
 async function apiBase() {
   try {
