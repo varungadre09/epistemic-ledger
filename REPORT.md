@@ -43,6 +43,13 @@ Each number is backed by past claims that were resolved against real-world outco
 with cited evidence. A Chrome extension renders this on the author's X profile. It
 reports a **track record, not a verdict on any single post.**
 
+<div class="figure">
+<img src="assets/demo-x.png" />
+<div class="caption">The extension on X: a reliability chip on each tweet, and clicking
+one opens the live analysis of that tweet (the ring gauges) alongside the author's full
+topic-level track record and a legend for the numbers.</div>
+</div>
+
 ## 3. Architecture & design decisions
 
 **Pipeline (offline, per author):**
@@ -112,9 +119,13 @@ with the hosted API's URL and contains no keys.
 repository (`chrome://extensions` -> Developer mode -> Load unpacked -> `extension/`)
 and browse X. A reliability chip appears on tweets by tracked authors; clicking one
 classifies that tweet live and shows the author's record in that exact subfield.
-Preloaded authors include @chamath and @CathieDWood plus a simulated set. Viewing an
-existing ledger is free; "analyze this tweet" runs one small model call on the server;
-cold-author building is disabled on the public demo.
+Viewing an existing ledger is free; "analyze this tweet" runs one small model call on
+the server; cold-author building is disabled on the public demo.
+
+<div class="highlight"><b>Enabled profiles right now:</b> <b>@chamath</b> and
+<b>@CathieDWood</b> have live ledgers on X — open either profile, or hover their
+tweets, to see it immediately. A simulated author set is also loaded for testing, and
+additional real authors can be built on demand.</div>
 
 **What is exposed, and how it stays safe.** The public endpoints serve only read-only
 reliability data, and the database is reached through a role that can just `SELECT`.
