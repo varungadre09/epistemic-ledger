@@ -140,9 +140,9 @@ class Handler(BaseHTTPRequestHandler):
                 handle, text = body.get("handle"), body.get("text")
                 if not handle or not text:
                     return self._json({"error": "handle and text required"}, 400)
-                import anthropic
                 from analyze import build_analysis
-                client = anthropic.Anthropic()
+                from aclient import make_anthropic
+                client = make_anthropic(force_ipv4=True)   # hosted egress may be IPv4-only
                 with psycopg.connect(config.SUPABASE_DB_URL) as conn:
                     return self._json(build_analysis(conn, client, handle, text))
             if u.path == "/build":
@@ -163,6 +163,9 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    if os.environ.get("EPI_FORCE_IPV4", "1") == "1":
+        from aclient import force_ipv4_dns
+        force_ipv4_dns()
     port = int(os.environ.get("PORT", "8000"))
     host = os.environ.get("HOST", "127.0.0.1")
     print(f"ledger read API on http://{host}:{port}  (/author?handle=@chamath)")

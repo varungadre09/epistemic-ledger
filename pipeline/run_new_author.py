@@ -120,12 +120,12 @@ def _claim_slugs(c) -> list[str]:
 
 # ------------------------------------------------------------------- extract
 def extract(handle: str) -> None:
-    import anthropic
     from extract import extract_claims
+    from aclient import make_anthropic
     path = os.path.join(INGEST_DIR, f"{handle.lstrip('@').lower()}.jsonl")
     if not os.path.exists(path):
         sys.exit(f"no ingest file {path} — run `ingest` first")
-    client = anthropic.Anthropic()
+    client = make_anthropic()
     with psycopg.connect(config.SUPABASE_DB_URL) as conn:
         sid = db.get_or_create_source(conn, "@" + handle.lstrip("@"), is_seeded=True)
         done = {r[0] for r in conn.execute(
@@ -164,9 +164,9 @@ def extract(handle: str) -> None:
 
 # ------------------------------------------------------------------- resolve
 def resolve(handle: str, limit: int | None, sample: bool = False) -> None:
-    import anthropic
     from resolve import resolve_claim
-    client = anthropic.Anthropic()
+    from aclient import make_anthropic
+    client = make_anthropic()
     today = config.TODAY or date.today().isoformat()
     order = "random()" if sample else "posted_at"
     with psycopg.connect(config.SUPABASE_DB_URL) as conn:
